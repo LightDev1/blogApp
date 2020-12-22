@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const User = require('../modeles/User');
+const config = require('config');
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -8,6 +9,7 @@ const route = Router();
 route.post(
     '/register',
     [
+        check('username', 'Некорректное имя пользователя').isLength({ min: 4 }),
         check('email', 'Некорректный email').isEmail(),
         check('password', 'Минимальная длина пароля 6 символов')
             .isLength({ min: 6 })
@@ -24,7 +26,7 @@ route.post(
                 });
             }
 
-            const { email, password } = req.body;
+            const { username, email, password } = req.body;
 
             const candidate = await User.findOne({ email });
 
@@ -33,14 +35,20 @@ route.post(
             }
 
             const hashedPassword = await bcrypt.hash(password, 12);
-            const user = new User({ email, password: hashedPassword });
+            const user = new User({ username, email, password: hashedPassword });
 
             await user.save();
 
-            res.status(201).json({ message: 'Пользователь создан' });
+            const token = jwt.sign(
+                { userId: user.id },
+                config.get('jwtSecret'),
+                { expiresIn: '1h' }
+            );
+
+            res.status(201).json({ token, userId: user.id, message: 'Пользователь создан' });
 
         } catch (e) {
-            res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+            res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e.message });
         }
     });
 
@@ -83,8 +91,6 @@ route.post(
             );
 
             res.json({ token, userId: user.id });
-
-            res.json();
 
         } catch (e) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });

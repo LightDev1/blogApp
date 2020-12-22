@@ -1,5 +1,5 @@
 {
     "port": 5000,
     "jwtSecret": "salavat secret key",
-    "mongoUri": "mongodb+srv://admin:1234@cluster0.vo9gw.mongodb.net/app?retryWrites=true&w=majority"
+    "mongoUri": "mongodb+srv://admin:1234qwe@cluster0.0gqvq.mongodb.net/app?retryWrites=true&w=majority"
 }

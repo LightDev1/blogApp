@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  position: relative;
+  font-family: 'Noto Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+
+  border: 2px solid transparent;
+  .auth__block,
+  .register__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F6F8FA;
+    border: 1px solid #EAECEF;
+    border-radius: 10px;
+    width: 300px;
+    height: 350px;
+    margin: 0 auto;
+    margin-top: 100px;
+    font-size: 14px;
+    color: #24292e;
+
+    .inputs__container {
+      width: 80%;
+      margin-top: 60px;
+
+      .input_field {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    
+        &:last-child {
+          margin-top: 20px;
+        }
+
+        input {
+          margin-top: 5px;
+          height: 25px;
+          border: 2px solid #E1E4E8;
+          border-radius: 8px;
+          outline: none;
+          padding: 5px 12px;
+
+          &:focus {
+            border: 2px solid #0366D6;
+          }
+        }
+  
+        .password {
+          margin-top: 0;
+        }
+  
+        label {
+          font-weight: 700;
+          opacity: 0.8;
+        }
+      }
+
+      .register__field {
+        margin-bottom: 20px;
+      }
+    }
+
+    .btn__sign-in {
+      width: 80%;
+      height: 35px;
+      background-color: #1074E7;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 20px;
+      cursor: pointer;
+
+
+      &:hover {
+        background-color: #0762ca;
+      }
+    }
+
+    .register-link,
+    .login-link {
+      text-decoration: none;
+      color: #0366D6;
+      margin-top: 20px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .register__container {
+    height: 460px;
+
+    .register__field {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.pop-up {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  background-color: #252B41;
+  border-radius: 5px;
+  transition: display 3s;
+
+  p {
+    padding: 5px 12px;
+    color: #fff;
+    font-size: 14px;
+  }
+}
+
+
