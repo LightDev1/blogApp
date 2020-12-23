@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  padding: 0;
   position: relative;
   font-family: 'Noto Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -7,8 +12,8 @@ body {
 }
 
 .app {
-
   border: 2px solid transparent;
+
   .auth__block,
   .register__container {
     display: flex;
@@ -39,7 +44,7 @@ body {
 
         input {
           margin-top: 5px;
-          height: 25px;
+          height: 30px;
           border: 2px solid #E1E4E8;
           border-radius: 8px;
           outline: none;
@@ -106,6 +111,313 @@ body {
       }
     }
   }
+}
+
+.navbar {
+  background-color: #5EA5F5;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+
+  .links__container {
+    display: flex;
+    flex-direction: row-reverse;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+
+    li {
+      margin-right: 20px;
+      font-size: 20px;
+
+      .link {
+        text-decoration: none;
+        color: #fff;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 100px;
+      margin-top: 4px;
+      cursor: pointer;
+
+      &:hover {
+        border: 2px solid #fff;
+      }
+    }
+  }
+
+  .context-menu {
+    border: 2px solid#EAECEF;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: #F6F8FA;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 120px;
+    height: 80px;
+
+    .link {
+      text-decoration: none;
+      color: #000000;
+      cursor: pointer;
+      padding: 5px 12px;
+      font-weight: 700;
+      font-size: 18px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.feed__container {
+  display: flex;
+  justify-content: center;
+  background-color: #EDEEF0;
+  margin-top: 68px;
+
+  .feed {
+    background-color: #fff;
+    border: 2px solid #EAECEF;
+    border-top: none;
+    width: 50%;
+
+    .feed-header {
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid #EDEEF0;
+      font-size: 14px;
+
+      h3 {
+        margin: 0;
+        font-size: 25px;
+        margin: 0 10px;
+        padding: 20px 10px;
+      }
+
+      .btn-sort {
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+        .submenu {
+          display: flex;
+          position: absolute;
+          z-index: 999;
+          flex-direction: column;
+          justify-content: center;
+          width: 120px;
+          height: 100px;
+          background-color: #fff;
+          box-shadow: 0 0 10px rgba(0,0,0,0.5);
+          margin-top: 5px;
+
+          span {
+            padding: 5px 10px;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+    }
+
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 25px 20px;
+
+      .post {
+        border: 3px solid #EDEEF0;
+        border-radius: 15px;
+        width: 70%;
+        overflow: hidden;
+        height: 349px;
+        margin-bottom: 20px;
+
+        .post-title {
+          font-size: 18px;
+          margin: 0;
+          padding: 12px 12px;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .post-info {
+          font-size: 12px;
+          font-weight: 700;
+          opacity: 0.7;
+          padding-left: 12px;
+
+          span {
+            display: block;
+          }
+
+          .post-author {
+            a {
+              cursor: pointer;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+
+        .post-thumbnail {
+          padding: 12px 12px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.create-block__container {
+  display: flex;
+  justify-content: center;
+  background-color: #EDEEF0;
+  height: 100vh;
+  margin-top: 68px; 
+
+  .create-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 2px solid #EAECEF;
+    border-top: none;
+    width: 50%;
+
+    .thumbnail-info {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-bottom: 2px solid #EDEEF0;
+      height: 140px;
+
+      .input_field {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+
+        label {
+          margin-bottom: 10px;
+        }
+
+        input {
+          margin-top: 5px;
+          width: 250px;
+          height: 40px;
+          border: 2px solid #E1E4E8;
+          border-radius: 8px;
+          outline: none;
+          padding: 10px 12px;
+
+          &:focus {
+            border: 2px solid #0366D6;
+          }
+        }
+      }
+
+      .thumbnail {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+
+        input {
+          width: 0.1px;
+          height: 0.1px;
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+          z-index: -1;
+        }
+
+        .inputfile + label {
+          font-size: 18px;
+          font-weight: 700;
+          color: white;
+          background-color: #5EA5F5;
+          display: inline-block;
+          width: 209px;
+          height: 47px;
+          text-align: center;
+          margin-top: 10px;
+          padding-top: 12px;
+
+          svg {
+            fill: #fff;
+          }
+
+          span {
+            padding-left: 10px;
+          }
+        }
+
+        .inputfile:focus + label,
+        .inputfile + label:hover {
+          background-color: #1a69c4;
+        }
+
+      }
+    }
+
+    .text-block {
+      margin-left: 35px;
+
+      textarea {
+        padding: 5px 12px;
+        font-size: 14px;
+      }
+    }
+
+    .post-btn {
+      width: 250px;
+      height: 50px;
+      background-color: #1074E7;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-left: 35px;
+      cursor: pointer;
+
+
+      &:hover {
+        background-color: #0762ca;
+      }
+    }
+  }
+}
+
+.profile__container {
+  margin-top: 70px;  
 }
 
 .pop-up {
