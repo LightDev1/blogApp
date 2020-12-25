@@ -4,6 +4,7 @@ const config = require('config');
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const router = require('./post.routes');
 const route = Router();
 
 route.post(

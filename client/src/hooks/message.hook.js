@@ -16,11 +16,11 @@ export const useMessage = () => {
 
             setTimeout(() => {
                 messageBlock.style.display = 'block';
-            }, 1000)
+            }, 1000);
 
             setTimeout(() => {
                 body.querySelector('.pop-up').remove();
-            }, 3500)
+            }, 3500);
         }
     }, []);
 };

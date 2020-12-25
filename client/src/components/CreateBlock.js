@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useHttp } from '../hooks/http.hook';
+import { useMessage } from '../hooks/message.hook';
 
 export default function CreateBlock() {
+    const auth = useContext(AuthContext);
+    const { request, loading } = useHttp();
+    const message = useMessage();
+    const [title, setTitle] = useState('');
+    const [text, setText] = useState('');
+
+    const handlerClick = async () => {
+        try {
+            const data = await request('/api/posts/publish', 'POST', { title, text }, {
+                'Authorization': `Bearer ${auth.token}`,
+            });
+            setText('');
+            setTitle('');
+            message('Пост опубликован');
+        } catch (e) { }
+    };
+
     return (
         <div className="create-block__container">
             <div className="create-block">
@@ -10,6 +30,8 @@ export default function CreateBlock() {
                         <input
                             type="text"
                             name="postName"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             id="postName"
                         />
                     </div>
@@ -34,9 +56,25 @@ export default function CreateBlock() {
                 </div>
                 <div className="text-block">
                     <label htmlFor="text">Текст поста</label>
-                    <textarea name="text" id="text" cols="70" rows="20"></textarea>
+                    <textarea
+                        name="text"
+                        id="text"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        cols="70"
+                        rows="21"
+                    >
+                    </textarea>
                 </div>
-                <button className="post-btn">Опубликовать</button>
+                <div className="publish-container">
+                    <button
+                        className="post-btn"
+                        onClick={handlerClick}
+                        disabled={loading}
+                    >
+                        Опубликовать
+                    </button>
+                </div>
             </div>
         </div>
     )

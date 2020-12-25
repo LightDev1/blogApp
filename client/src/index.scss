@@ -186,6 +186,7 @@ body {
   justify-content: center;
   background-color: #EDEEF0;
   margin-top: 68px;
+  min-height: 100vh;
 
   .feed {
     background-color: #fff;
@@ -299,7 +300,8 @@ body {
   display: flex;
   justify-content: center;
   background-color: #EDEEF0;
-  height: 100vh;
+  min-height: 100vh;
+  height: 736px;
   margin-top: 68px; 
 
   .create-block {
@@ -394,23 +396,28 @@ body {
       }
     }
 
-    .post-btn {
-      width: 250px;
-      height: 50px;
-      background-color: #1074E7;
-      border: none;
-      border-radius: 8px;
-      outline: none;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 20px;
-      margin-left: 35px;
-      cursor: pointer;
+    .publish-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 50px;
 
-
-      &:hover {
-        background-color: #0762ca;
+      .post-btn {
+        width: 250px;
+        height: 50px;
+        background-color: #1074E7;
+        border: none;
+        border-radius: 8px;
+        outline: none;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        margin-left: 35px;
+        cursor: pointer;
+  
+  
+        &:hover {
+          background-color: #0762ca;
+        }
       }
     }
   }
@@ -421,9 +428,10 @@ body {
 }
 
 .pop-up {
-  position: absolute;
+  position: fixed;
   right: 50px;
-  top: 50px;
+  top: 100px;
+  z-index: 10001;
   background-color: #252B41;
   border-radius: 5px;
   transition: display 3s;
