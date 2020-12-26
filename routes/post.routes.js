@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const Post = require('../modeles/Post');
+const User = require('../modeles/User');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
@@ -9,8 +10,10 @@ router.post('/publish', auth, async (req, res) => {
 
         const { title, text } = req.body;
 
+        const author = await User.findById(req.user.userId);
+
         const post = new Post({
-            title, text, author: req.user.userId
+            title, text, author: req.user.userId, authorUsername: author.username,
         });
 
         await post.save();
@@ -32,16 +35,17 @@ router.get('/my_posts', auth, async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find();
         res.json({ posts });
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }
 });
 
-router.post('/:id', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
     try {
-
+        const post = await Post.findById(req.params.id);
+        res.json(post);
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

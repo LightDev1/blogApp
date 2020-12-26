@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import AuthBlock from './components/AuthBlock';
 import CreateBlock from './components/CreateBlock';
 import Feed from './components/Feed';
+import Post from './components/Post';
 import Profile from './components/Profile';
 import RegisterBlock from './components/RegisterBlock';
 
@@ -19,7 +20,10 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="/create" exact>
                     <CreateBlock />
                 </Route>
-                <Redirect to="/feed" />
+                <Route path="/posts/:id">
+                    <Post />
+                </Route>
+                {/* <Redirect to="/feed" /> */}
             </Switch>
         );
     }

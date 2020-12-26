@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import thumbnail from '../img/test-thumbnail.jpg';
 
 export default function Post({ posts }) {
@@ -7,9 +8,11 @@ export default function Post({ posts }) {
             {posts ? (
                 posts.map(post => (
                     <div className="post" key={post._id}>
-                        <h4 className="post-title">{post.title}</h4>
+                        <h4 className="post-title">
+                            <Link to={`posts/${post._id}`}>{post.title}</Link>
+                        </h4>
                         <div className="post-info">
-                            <span className="post-author">Aвтор: <a>{post.author}</a></span>
+                            <span className="post-author">Aвтор: <a>{post.authorUsername}</a></span>
                             <span className="post-date">Дата публикации: {new Date(post.date).toLocaleDateString()}</span>
                         </div>
                         <div className="post-thumbnail">

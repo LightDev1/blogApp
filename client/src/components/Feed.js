@@ -15,7 +15,7 @@ export default function Feed() {
             const fetchedPosts = await request('/api/posts', 'GET', null, {
                 'Authorization': `Bearer ${token}`,
             });
-            setPosts(fetchedPosts.posts);
+            setPosts(fetchedPosts.posts.reverse());
         } catch (e) {
             console.log(e.message);
         }

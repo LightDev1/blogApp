@@ -6,6 +6,7 @@ const schema = new Schema({
     // thumbnail: {type: }
     date: { type: Date, default: Date.now },
     author: { type: Types.ObjectId, ref: 'User' },
+    authorUsername: { type: String, required: true },
     comments: [{ type: Types.ObjectId, ref: 'Comment' }],
 });
 
