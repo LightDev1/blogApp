@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import profilePng from '../img/profile.png';
 import ContextMenu from './ContextMenu';
+import profilePng from '../img/profile.png';
 
 export default function Navbar() {
     const [menu, setMenu] = useState(false);

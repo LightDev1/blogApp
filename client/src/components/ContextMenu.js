@@ -14,7 +14,7 @@ export default function ContextMenu() {
 
     return (
         <div className="context-menu">
-            <NavLink to="/profile" className="link">Профиль</NavLink>
+            <NavLink to={`/profile/${auth.userId}`} className="link">Профиль</NavLink>
             <span onClick={handleLogout} className="link">Выйти</span>
         </div>
     );

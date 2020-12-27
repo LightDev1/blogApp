@@ -14,7 +14,7 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="/feed" exact>
                     <Feed />
                 </Route>
-                <Route path="/profile" exact>
+                <Route path="/profile/:id">
                     <Profile />
                 </Route>
                 <Route path="/create" exact>
@@ -23,7 +23,10 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="/posts/:id">
                     <Post />
                 </Route>
-                {/* <Redirect to="/feed" /> */}
+                <Route path="/profile/posts/:id">
+                    <Post />
+                </Route>
+                <Redirect to="/feed" />
             </Switch>
         );
     }

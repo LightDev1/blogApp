@@ -25,9 +25,10 @@ router.post('/publish', auth, async (req, res) => {
     }
 });
 
-router.get('/my_posts', auth, async (req, res) => {
+router.get('/user_posts/:id', auth, async (req, res) => {
     try {
-
+        const posts = await Post.find({ author: req.params.id });
+        res.json(posts);
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

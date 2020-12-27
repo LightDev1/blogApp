@@ -4,10 +4,10 @@ const config = require('config');
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const router = require('./post.routes');
-const route = Router();
+const auth = require('../middleware/auth.middleware');
+const router = Router();
 
-route.post(
+router.post(
     '/register',
     [
         check('username', 'Некорректное имя пользователя').isLength({ min: 4 }),
@@ -53,7 +53,7 @@ route.post(
         }
     });
 
-route.post(
+router.post(
     '/login',
     [
         check('email', 'Введите корректный email').normalizeEmail().isEmail(),
@@ -98,4 +98,13 @@ route.post(
         }
     });
 
-module.exports = route;
+router.get('/:id', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        res.json(user);
+    } catch (e) {
+        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+    }
+});
+
+module.exports = router;
