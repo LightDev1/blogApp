@@ -3,7 +3,7 @@ const { Schema, model, Types } = require('mongoose');
 const schema = new Schema({
     title: { type: String, required: true },
     text: { type: String, required: true },
-    // thumbnail: {type: }
+    thumbnail: { type: String, required: true },
     date: { type: Date, default: Date.now },
     author: { type: Types.ObjectId, ref: 'User' },
     authorUsername: { type: String, required: true },

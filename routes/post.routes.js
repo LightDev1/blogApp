@@ -8,26 +8,18 @@ const router = Router();
 router.post('/publish', auth, async (req, res) => {
     try {
 
-        const { title, text } = req.body;
+        const { title, text, thumbnail } = req.body;
 
         const author = await User.findById(req.user.userId);
 
         const post = new Post({
-            title, text, author: req.user.userId, authorUsername: author.username,
+            title, text, author: req.user.userId, authorUsername: author.username, thumbnail,
         });
 
         await post.save();
 
         res.status(201).json({ post });
 
-    } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
-    }
-});
-
-router.post('/upload', auth, async (req, res) => {
-    try {
-        const { thumbnail } = req.body;
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

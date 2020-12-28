@@ -98,6 +98,18 @@ router.post(
         }
     });
 
+router.post('/upload', auth, async (req, res) => {
+    try {
+        const { profilePicture } = req.body;
+
+        await User.findByIdAndUpdate(req.user.userId, { profilePicture });
+
+        res.json({ profilePicture });
+    } catch (e) {
+        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+    }
+});
+
 router.get('/:id', auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -106,5 +118,6 @@ router.get('/:id', auth, async (req, res) => {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }
 });
+
 
 module.exports = router;

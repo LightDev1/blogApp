@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import thumbnail from '../img/test-thumbnail.jpg';
 
 export default function Post({ posts }) {
     return (
@@ -18,7 +17,7 @@ export default function Post({ posts }) {
                             <span className="post-date">Дата публикации: {new Date(post.date).toLocaleDateString()}</span>
                         </div>
                         <div className="post-thumbnail">
-                            <img src={thumbnail} alt="thumbnail" />
+                            <img src={post.thumbnail} alt="thumbnail" />
                         </div>
                     </div>
                 ))) : (

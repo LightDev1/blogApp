@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import { useMessage } from '../hooks/message.hook';
@@ -7,18 +7,34 @@ export default function CreateBlock() {
     const auth = useContext(AuthContext);
     const { request, loading } = useHttp();
     const message = useMessage();
+    const inputFile = useRef();
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
+    const [thumbnail, setThumbnail] = useState('');
 
     const handlerClick = async () => {
         try {
-            await request('/api/posts/publish', 'POST', { title, text }, {
+            await request('/api/posts/publish', 'POST', { title, text, thumbnail }, {
                 'Authorization': `Bearer ${auth.token}`,
             });
             setText('');
             setTitle('');
             message('Пост опубликован');
         } catch (e) { }
+    };
+
+    const changeHandler = () => {
+        const file = inputFile.current.files[0];
+
+        if (file) {
+            let fileReader = new FileReader();
+
+            fileReader.onload = (fileLoadedEvent) => {
+                let srcData = fileLoadedEvent.target.result;
+                setThumbnail(srcData);
+            };
+            fileReader.readAsDataURL(file);
+        }
     };
 
     return (
@@ -43,6 +59,8 @@ export default function CreateBlock() {
                             id="thumbnail" className="inputfile inputfile-1"
                             data-multiple-caption="{count} files selected"
                             multiple=""
+                            ref={inputFile}
+                            onChange={changeHandler}
                         />
                         <label htmlFor="thumbnail">
                             <svg
