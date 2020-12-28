@@ -250,6 +250,10 @@ body {
             margin-left: 10px;
       
             .post-title {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              width: 100%;
+              white-space: nowrap;
               font-size: 18px;
               margin: 0;
               padding: 12px 12px;
@@ -444,6 +448,10 @@ body {
           padding: 12px 12px;
           text-decoration: none;
           color: #000000;
+          text-overflow: ellipsis; //образка длинных блоков с текстом
+          overflow: hidden; //прятать выходящий за пределы текст
+          width: 100%; //ширина блока с текстом
+          white-space: nowrap; //запрет на перенос текста
           cursor: pointer;
 
           &:hover {

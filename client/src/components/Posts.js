@@ -9,11 +9,11 @@ export default function Post({ posts }) {
                 posts.map(post => (
                     <div className="post" key={post._id}>
                         <h4 className="post-title">
-                            <Link to={`posts/${post._id}`} className="post-title">{post.title}</Link>
+                            <Link to={`/posts/${post._id}`} className="post-title">{post.title}</Link>
                         </h4>
                         <div className="post-info">
                             <span className="post-author">
-                                Aвтор: <Link to={`profile/${post.author}`} className="author-link">{post.authorUsername}</Link>
+                                Aвтор: <Link to={`/profile/${post.author}`} className="author-link">{post.authorUsername}</Link>
                             </span>
                             <span className="post-date">Дата публикации: {new Date(post.date).toLocaleDateString()}</span>
                         </div>

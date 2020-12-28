@@ -12,7 +12,7 @@ export default function CreateBlock() {
 
     const handlerClick = async () => {
         try {
-            const data = await request('/api/posts/publish', 'POST', { title, text }, {
+            await request('/api/posts/publish', 'POST', { title, text }, {
                 'Authorization': `Bearer ${auth.token}`,
             });
             setText('');
@@ -37,7 +37,13 @@ export default function CreateBlock() {
                     </div>
                     <div className="thumbnail">
                         <span>Превью поста</span>
-                        <input type="file" name="thumbnail" id="thumbnail" className="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple="" />
+                        <input
+                            type="file"
+                            name="thumbnail"
+                            id="thumbnail" className="inputfile inputfile-1"
+                            data-multiple-caption="{count} files selected"
+                            multiple=""
+                        />
                         <label htmlFor="thumbnail">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

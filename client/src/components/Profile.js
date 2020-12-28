@@ -1,14 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import Loader from './Loader';
 import Posts from './Posts';
 import profilePng from '../img/profile.png';
-import thumbnail from '../img/test-thumbnail.jpg'
 
 export default function Profile() {
-    const { token } = useContext(AuthContext);
+    const auth = useContext(AuthContext);
     const { loading, request } = useHttp();
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
@@ -17,13 +16,13 @@ export default function Profile() {
     const getUser = useCallback(async () => {
         try {
             const fetchedUser = await request(`/api/auth/${userId}`, 'GET', null, {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${auth.token}`,
             });
             setUser(fetchedUser);
         } catch (e) {
             console.log(e.message);
         }
-    }, [token, userId, request]);
+    }, [auth.token, userId, request]);
 
     useEffect(() => {
         getUser();
@@ -32,13 +31,13 @@ export default function Profile() {
     const getPosts = useCallback(async () => {
         try {
             const fetchedPosts = await request(`/api/posts/user_posts/${userId}`, 'GET', null, {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${auth.token}`,
             });
             setPosts(fetchedPosts.reverse());
         } catch (e) {
             console.log(e.message);
         }
-    }, [token, userId, request]);
+    }, [auth.token, userId, request]);
 
     useEffect(() => {
         getPosts();
@@ -62,7 +61,15 @@ export default function Profile() {
                     </button>
                     </div>
                     <div className="users-posts">
-                        <h2>Мои посты</h2>
+                        <h2>
+                            {
+                                auth.userId === userId ? (
+                                    <>Мои посты ({posts.length})</>
+                                ) : (
+                                        <>Посты пользователя ({posts.length})</>
+                                    )
+                            }
+                        </h2>
                         <Posts posts={posts} />
                     </div>
                 </div>

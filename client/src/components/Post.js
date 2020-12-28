@@ -39,7 +39,7 @@ export default function Post() {
                             <h2>{post.title}</h2>
                         </div>
                         <div className="post-author">
-                            <p>Автор: <Link to={`profile/${post.author}`} className="author-link">{post.authorUsername}</Link></p>
+                            <p>Автор: <Link to={`/profile/${post.author}`} className="author-link">{post.authorUsername}</Link></p>
                         </div>
                         <div className="post-date">
                             <p>Дата: {new Date(post.date).toLocaleDateString()}</p>
