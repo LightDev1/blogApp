@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useAuth } from './hooks/auth.hook';
 import { AuthContext } from './context/AuthContext';
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{
-      token, userId, login, logout, isAuthenticated
+      token, userId, login, logout, isAuthenticated,
     }}>
       <Router>
         {isAuthenticated && <Navbar />}

@@ -46,7 +46,7 @@ router.post(
                 { expiresIn: '1h' }
             );
 
-            res.status(201).json({ token, userId: user.id, message: 'Пользователь создан' });
+            res.status(201).json({ token, userId: user.id, profilePicture: user.profilePicture, message: 'Пользователь создан' });
 
         } catch (e) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e.message });
@@ -91,7 +91,7 @@ router.post(
                 { expiresIn: '1h' }
             );
 
-            res.json({ token, userId: user.id });
+            res.json({ token, userId: user.id, profilePicture: user.profilePicture });
 
         } catch (e) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
@@ -105,6 +105,16 @@ router.post('/upload', auth, async (req, res) => {
         await User.findByIdAndUpdate(req.user.userId, { profilePicture });
 
         res.json({ profilePicture });
+    } catch (e) {
+        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+    }
+});
+
+router.get('/userpicture', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId);
+
+        res.json(user.profilePicture);
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

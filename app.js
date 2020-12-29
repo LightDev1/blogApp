@@ -19,6 +19,7 @@ async function start() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
+            useFindAndModify: false
         })
         app.listen(PORT, () => { console.log(`Сервер был запущен на порте ${PORT}`); });
     } catch (e) {
