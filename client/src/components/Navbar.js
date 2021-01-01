@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 
 export default function Navbar() {
-    const { token, userId } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
     const { request } = useHttp();
     const [menu, setMenu] = useState(false);
     const [picture, setPicture] = useState('');
@@ -19,7 +19,7 @@ export default function Navbar() {
         } catch (e) {
             console.log(e);
         }
-    }, [token, userId, request]);
+    }, [token, request]);
 
     useEffect(() => {
         getPicture();

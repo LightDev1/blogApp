@@ -54,7 +54,7 @@ export default function Profile() {
         } catch (e) {
             console.log(e.message);
         }
-    }, [auth.token, userId, request, picture]);
+    }, [auth.token, request, picture]);
 
     useEffect(() => {
         if (picture) {

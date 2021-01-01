@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import Loader from './Loader';
+import Comment from './Comment';
 
 export default function Post() {
     const { token } = useContext(AuthContext);
@@ -16,7 +17,6 @@ export default function Post() {
                 'Authorization': `Bearer ${token}`,
             });
             setPost(fetchedPost);
-            console.log(fetchedPost);
         } catch (e) {
             console.log(e.message);
         }
@@ -50,6 +50,7 @@ export default function Post() {
                             {post.text}
                         </p>
                     </div>
+                    <Comment postId={postId} />
                 </article>
             )
             }
