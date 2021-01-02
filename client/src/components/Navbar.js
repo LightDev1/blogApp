@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 
 export default function Navbar() {
-    const { token } = useContext(AuthContext);
+    const { token, defaultPic } = useContext(AuthContext);
     const { request } = useHttp();
     const [menu, setMenu] = useState(false);
     const [picture, setPicture] = useState('');
@@ -28,7 +28,7 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <ul className="links__container">
-                <li onClick={() => { setMenu(!menu) }}><img src={picture} alt="profile" /></li>
+                <li onClick={() => { setMenu(!menu) }}><img src={picture ? picture : defaultPic} alt="profile" /></li>
                 <li><NavLink to="/feed" className="link">Лента</NavLink></li>
                 <li><NavLink to="/create" className="link">Написать пост</NavLink></li>
             </ul>

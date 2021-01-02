@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const Post = require('../modeles/Post');
 const User = require('../modeles/User');
-const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth.middleware');
 const router = Router();
 
@@ -47,6 +46,15 @@ router.get('/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         res.json(post);
+    } catch (e) {
+        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+    }
+});
+
+router.delete('/delete/:id', auth, async (req, res) => {
+    try {
+        await Post.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Пост был успешно удален' });
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }

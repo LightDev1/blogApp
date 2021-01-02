@@ -13,10 +13,13 @@ router.post('/create', auth, async (req, res) => {
         const postId = await Post.findById(post);
 
         const comment = new Comment({
-            text, post: postId, author, authorUsername: author.username,
+            text, post: postId, author, authorUsername: author.username, authorProfilePic: author.profilePicture,
         });
 
         await comment.save();
+
+        await User.findByIdAndUpdate(req.user.userId, { comments: [...author.comments, comment] });
+        await Post.findByIdAndUpdate(postId, { comments: [...author.comments, comment] });
 
         res.status(201).json({ comment });
 

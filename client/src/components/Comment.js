@@ -1,19 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
-import Loader from './Loader';
-import profilePicture from '../img/profile.png';
 
 export default function Comment({ postId }) {
     const { token } = useContext(AuthContext);
-    const { loading, request } = useHttp();
+    const { request } = useHttp();
     const [text, setText] = useState('');
     const [comments, setComments] = useState([]);
 
     const pressHandler = async (event) => {
         if (event.key === 'Enter') {
             try {
-                const data = await request('/api/comments/create', 'POST', { text, post: postId }, {
+                await request('/api/comments/create', 'POST', { text, post: postId }, {
                     'Authorization': `Bearer ${token}`,
                 });
                 setText('');
@@ -39,14 +37,10 @@ export default function Comment({ postId }) {
         getComments();
     }, [getComments]);
 
-    if (loading) {
-        return <Loader />;
-    }
-
     return (
         <div className="comments-container">
             <div className="comment-container">
-                <h3>Комментарии</h3>
+                <h3>Комментарии ({comments.length})</h3>
                 <div className="create-comment">
                     <div className="input_field">
                         <input
@@ -65,7 +59,7 @@ export default function Comment({ postId }) {
                         comments.map(comment => (
                             <div className="comment-container" key={comment._id}>
                                 <div className="profile-picture">
-                                    <img src={profilePicture} alt="profile" />
+                                    <img src={comment.authorProfilePic} alt="profile" />
                                 </div>
                                 <div className="comment">
                                     <div className="comment-author">{comment.authorUsername}</div>

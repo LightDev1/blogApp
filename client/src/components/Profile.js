@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import Loader from './Loader';
-import Posts from './Posts';
+import PostList from './PostList';
 
 export default function Profile() {
     const auth = useContext(AuthContext);
@@ -127,7 +127,7 @@ export default function Profile() {
                                     )
                             }
                         </h2>
-                        <Posts posts={posts} />
+                        <PostList posts={posts} />
                     </div>
                 </div>
             )}

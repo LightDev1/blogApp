@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
-import Posts from './Posts';
+import PostList from './PostList';
 import Loader from './Loader';
 
 export default function Feed() {
@@ -47,7 +47,7 @@ export default function Feed() {
                         }
                     </div>
                 </div>
-                <Posts posts={posts} />
+                <PostList posts={posts} />
             </div>
         </div>
     )
