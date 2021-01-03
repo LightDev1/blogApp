@@ -1,12 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 
 const app = express();
 
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.json({ extended: true }));
 app.use(fileUpload());
+
 
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/posts', require('./routes/post.routes'));

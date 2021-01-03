@@ -17,6 +17,8 @@ router.post('/publish', auth, async (req, res) => {
 
         await post.save();
 
+        await User.findByIdAndUpdate(req.user.userId, { posts: [...author.posts, post] });
+
         res.status(201).json({ post });
 
     } catch (e) {
@@ -53,7 +55,16 @@ router.get('/:id', auth, async (req, res) => {
 
 router.delete('/delete/:id', auth, async (req, res) => {
     try {
+        const author = await User.findById(req.user.userId);
+
+        const newArray = author.posts;
+        const index = author.posts.indexOf(req.params.id);
+        newArray.splice(index, 1);
+
         await Post.findByIdAndDelete(req.params.id);
+
+        await User.findByIdAndUpdate(req.user.userId, { posts: newArray });
+
         res.json({ message: 'Пост был успешно удален' });
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
