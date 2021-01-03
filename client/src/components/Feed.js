@@ -25,6 +25,37 @@ export default function Feed() {
         getAllPosts();
     }, [getAllPosts]);
 
+    const sortBy = (parameter) => {
+        switch (parameter) {
+            case 'titles':
+                const newArray = posts;
+                newArray.sort((a, b) => a.title.localeCompare(b.title));
+
+                setPosts(newArray);
+                setVisible(false);
+                break;
+
+            case 'authors':
+                const newArray2 = posts;
+                newArray2.sort((a, b) => a.authorUsername.localeCompare(b.authorUsername));
+
+                setPosts(newArray2);
+                setVisible(false);
+                break;
+
+            case 'date':
+                const newArray3 = posts;
+                newArray3.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+                setPosts(newArray3);
+                setVisible(false);
+                break;
+
+            default:
+                break;
+        }
+    };
+
     if (loading) {
         return <Loader />;
     }
@@ -39,9 +70,9 @@ export default function Feed() {
                         {
                             visible && (
                                 <div className="submenu">
-                                    <span>По названиям</span>
-                                    <span>По авторам</span>
-                                    <span>По дате</span>
+                                    <span onClick={() => sortBy('titles')}>По названиям</span>
+                                    <span onClick={() => sortBy('authors')}>По авторам</span>
+                                    <span onClick={() => sortBy('date')}>По дате</span>
                                 </div>
                             )
                         }

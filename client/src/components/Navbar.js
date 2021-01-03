@@ -25,6 +25,10 @@ export default function Navbar() {
         getPicture();
     }, [getPicture])
 
+    const changeMenu = (execution) => {
+        setMenu(execution);
+    };
+
     return (
         <nav className="navbar">
             <ul className="links__container">
@@ -32,7 +36,7 @@ export default function Navbar() {
                 <li><NavLink to="/feed" className="link">Лента</NavLink></li>
                 <li><NavLink to="/create" className="link">Написать пост</NavLink></li>
             </ul>
-            {menu && <ContextMenu />}
+            {menu && <ContextMenu changeMenu={changeMenu} />}
         </nav>
     );
 }

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useHistory } from 'react-router-dom';
 
-export default function ContextMenu() {
+export default function ContextMenu({ changeMenu }) {
     const auth = useContext(AuthContext);
     const history = useHistory();
 
@@ -14,7 +14,13 @@ export default function ContextMenu() {
 
     return (
         <div className="context-menu">
-            <NavLink to={`/profile/${auth.userId}`} className="link">Профиль</NavLink>
+            <NavLink
+                to={`/profile/${auth.userId}`}
+                className="link"
+                onClick={() => { changeMenu(false) }}
+            >
+                Профиль
+            </NavLink>
             <span onClick={handleLogout} className="link">Выйти</span>
         </div>
     );

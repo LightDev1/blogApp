@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { Types } = require('mongoose');
 const router = Router();
 const Comment = require('../modeles/Comment');
 const User = require('../modeles/User');
@@ -36,6 +37,24 @@ router.post('/', auth, async (req, res) => {
 
         res.json(comments);
 
+    } catch (e) {
+        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e.message });
+    }
+});
+
+router.delete('/delete/:id', auth, async (req, res) => {
+    try {
+        const author = await User.findById(req.user.userId);
+
+        const newArray = author.comments;
+        const index = author.comments.indexOf(req.params.id);
+        newArray.splice(index, 1);
+
+        await Comment.findByIdAndDelete(req.params.id);
+
+        await User.findByIdAndUpdate(req.user.userId, { comments: newArray });
+
+        res.json({ message: 'Коммент был успешно удален' });
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e.message });
     }
