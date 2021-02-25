@@ -2,24 +2,39 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
 import PostList from './PostList';
-import Loader from './Loader';
+import Loader from './Loader';;
 
 export default function Feed() {
-    const { token } = useContext(AuthContext);
-    const { loading, request } = useHttp();
+    const { token, refresh, login } = useContext(AuthContext);
+    const { request } = useHttp();
     const [visible, setVisible] = useState(false);
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const checkTokens = useCallback(async () => {
+        try {
+            const data = await request('/api/auth/refresh-tokens', 'POST', { refreshToken: refresh });
+            login(data.accessToken, data.refreshToken, data.userId);
+        } catch (e) {
+            console.log(`В checkTokens ${e.message}`);
+        }
+        // eslint-disable-next-line
+    }, []);
 
     const getAllPosts = useCallback(async () => {
+        setLoading(true);
+        checkTokens();
         try {
             const fetchedPosts = await request('/api/posts', 'GET', null, {
                 'Authorization': `Bearer ${token}`,
             });
             setPosts(fetchedPosts.posts.reverse());
+            setLoading(false);
         } catch (e) {
-            console.log(e.message);
+            setLoading(false);
+            console.log(e);
         }
-    }, [token, request]);
+    }, [token, request, checkTokens]);
 
     useEffect(() => {
         getAllPosts();

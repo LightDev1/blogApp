@@ -7,7 +7,7 @@ import { useMessage } from '../hooks/message.hook';
 export default function AuthBlock() {
     const auth = useContext(AuthContext);
     const message = useMessage();
-    const { request, error, loading, clearError } = useHttp();
+    const { request, error, clearError } = useHttp();
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -25,42 +25,43 @@ export default function AuthBlock() {
     const loginHandler = async () => {
         try {
             const data = await request('/api/auth/login', 'POST', { ...form });
-            auth.login(data.token, data.userId);
+            auth.login(data.tokens.accessToken, data.tokens.refreshToken, data.userId);
         } catch (e) { }
     };
 
     return (
-        <div className="auth__block">
-            <div className="inputs__container">
-                <div className="input_field">
-                    <label htmlFor="email">Введите email</label>
+        <div className="auth__wrapper">
+            <div className="auth__container">
+                <div className="text__block">
+                    <h2>Войти в аккаунт</h2>
+                    <p>Пожалуйста, войдите в свой аккаунт</p>
+                </div>
+                <div className="auth__block">
                     <input
                         type="text"
                         name="email"
-                        id="email"
+                        className="login-field"
+                        placeholder="Логин"
                         value={form.email}
                         onChange={changeHandler}
                     />
-                </div>
-                <div className="input_field">
-                    <label htmlFor="password">Введите пароль</label>
                     <input
                         type="password"
                         name="password"
-                        id="password"
+                        className="password-field"
+                        placeholder="Пароль"
                         value={form.password}
                         onChange={changeHandler}
                     />
+                    <button
+                        className="sign-in"
+                        onClick={loginHandler}
+                    >
+                        ВОЙТИ В АККАУНТ
+                </button>
+                    <NavLink to="/register" className="register-link">Зарегистрироваться</NavLink>
                 </div>
             </div>
-            <button
-                className="btn__sign-in"
-                onClick={loginHandler}
-                disabled={loading}
-            >
-                Войти
-            </button>
-            <NavLink to="/register" className="register-link">Зарегистрироваться</NavLink>
         </div>
     );
 }

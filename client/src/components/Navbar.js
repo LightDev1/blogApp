@@ -31,12 +31,16 @@ export default function Navbar() {
 
     return (
         <nav className="navbar">
-            <ul className="links__container">
-                <li onClick={() => { setMenu(!menu) }}><img src={picture ? picture : defaultPic} alt="profile" /></li>
-                <li><NavLink to="/feed" className="link">Лента</NavLink></li>
-                <li><NavLink to="/create" className="link">Написать пост</NavLink></li>
-            </ul>
-            {menu && <ContextMenu changeMenu={changeMenu} />}
+            <div className="navbar-content">
+                <div className="logo-container"><NavLink to="/feed" className="logo">Blog App</NavLink></div>
+                <ul className="links__container">
+                    <li onClick={() => { setMenu(!menu) }}><img src={picture ? picture : defaultPic} alt="profile" /></li>
+                    <li><NavLink to="/feed" className="link">Лента</NavLink></li>
+                    <li><NavLink to="/create" className="link">Написать пост</NavLink></li>
+                    <li></li>
+                </ul>
+                {menu && <ContextMenu changeMenu={changeMenu} />}
+            </div>
         </nav>
     );
 }

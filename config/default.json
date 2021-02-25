@@ -1,5 +1,17 @@
 {
     "port": 5000,
-    "jwtSecret": "salavat secret key",
-    "mongoUri": "mongodb+srv://admin:1234qwe@cluster0.0gqvq.mongodb.net/app?retryWrites=true&w=majority"
+    "mongoUri": "mongodb+srv://admin:1234qwe@cluster0.0gqvq.mongodb.net/app?retryWrites=true&w=majority",
+    "jwt": {
+        "secret": "salavat secret key",
+        "tokens": {
+            "access": {
+                "type": "access",
+                "expiresIn": "1m"
+            },
+            "refresh": {
+                "type": "refresh",
+                "expiresIn": "1h"
+            }
+        }
+    }
 }

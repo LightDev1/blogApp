@@ -5,7 +5,7 @@ import Comment from './Comment';
 
 export default function CommentsList({ postId }) {
     const { token } = useContext(AuthContext);
-    const { request } = useHttp();
+    const { request, loading } = useHttp();
     const [text, setText] = useState('');
     const [comments, setComments] = useState([]);
     const [rerender, setRerender] = useState(false);
@@ -56,6 +56,7 @@ export default function CommentsList({ postId }) {
                             id="comment"
                             placeholder="Оставьте комментарий"
                             value={text}
+                            disabled={loading}
                             onChange={(event) => { setText(event.target.value) }}
                             onKeyPress={pressHandler}
                         />

@@ -1,10 +1,13 @@
 const { Router } = require('express');
 const User = require('../modeles/User');
+const Token = require('../modeles/Token');
 const config = require('config');
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const { v4: uuid } = require('uuid');
 const auth = require('../middleware/auth.middleware');
+const { updateTokens } = require('../helpers/auth.helper');
 const router = Router();
 
 router.post(
@@ -40,13 +43,10 @@ router.post(
 
             await user.save();
 
-            const token = jwt.sign(
-                { userId: user.id },
-                config.get('jwtSecret'),
-                { expiresIn: '1h' }
-            );
+            const tokens = await updateTokens(user.id);
 
-            res.status(201).json({ token, userId: user.id, profilePicture: user.profilePicture, message: 'Пользователь создан' });
+            res.status(201).json({ tokens, userId: user.id, profilePicture: user.profilePicture, message: 'Пользователь создан' });
+
 
         } catch (e) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e.message });
@@ -85,18 +85,45 @@ router.post(
                 return res.status(400).json({ message: 'Неверный пароль' });
             }
 
-            const token = jwt.sign(
-                { userId: user.id },
-                config.get('jwtSecret'),
-                { expiresIn: '1h' }
-            );
+            const tokens = await updateTokens(user.id);
 
-            res.json({ token, userId: user.id, profilePicture: user.profilePicture });
+            res.json({ tokens, userId: user.id, profilePicture: user.profilePicture });
 
         } catch (e) {
-            res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
+            res.status(500).json({ message: `Что-то пошло не так, попробуйте снова ${e.message}` });
         }
     });
+
+router.post('/refresh-tokens', async (req, res) => {
+    const { refreshToken } = req.body;
+    let payload;
+
+    try {
+        payload = jwt.verify(refreshToken, config.get('jwt').secret);
+
+        if (payload.type != 'refresh') {
+            return res.status(400).json({ message: 'Невалидный токен 1' });
+        }
+    } catch (e) {
+        if (e instanceof jwt.TokenExpiredError) {
+            return res.status(400).json({ message: 'Истекло время дейсвия токена' });
+        }
+        else if (e instanceof jwt.JsonWebTokenError) {
+            return res.status(400).json({ message: 'Невалидный токен 2' })
+        }
+    }
+
+    const token = await Token.findOne({ refreshTokenId: payload.id });
+
+    if (!token) {
+        throw new Error('Невалидный токен 3');
+    }
+
+    const tokens = await updateTokens(token.userId);
+
+    res.json(tokens);
+
+});
 
 router.post('/upload', auth, async (req, res) => {
     try {

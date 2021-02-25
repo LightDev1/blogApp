@@ -7,23 +7,38 @@ import PostList from './PostList';
 
 export default function Profile() {
     const auth = useContext(AuthContext);
-    const { loading, request } = useHttp();
+    const { request } = useHttp();
     const userId = useParams().id;
     const inputFile = useRef();
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     const [picture, setPicture] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const checkTokens = useCallback(async () => {
+        try {
+            const data = await request('/api/auth/refresh-tokens', 'POST', { refreshToken: auth.refresh });
+            auth.login(data.accessToken, data.refreshToken, data.userId);
+        } catch (e) {
+            console.log(`В checkTokens ${e.message}`);
+        }
+        // eslint-disable-next-line 
+    }, []);
 
     const getUser = useCallback(async () => {
+        setLoading(true);
+        checkTokens();
         try {
             const fetchedUser = await request(`/api/auth/${userId}`, 'GET', null, {
                 'Authorization': `Bearer ${auth.token}`,
             });
             setUser(fetchedUser);
+            setLoading(false);
         } catch (e) {
+            setLoading(false);
             console.log(e.message);
         }
-    }, [auth.token, userId, request]);
+    }, [auth.token, userId, request, checkTokens]);
 
     useEffect(() => {
         getUser();

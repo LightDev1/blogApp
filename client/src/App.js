@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Loader from './components/Loader';
 
 function App() {
-  const { token, userId, login, logout, ready } = useAuth();
+  const { token, refresh, userId, login, logout, ready } = useAuth();
   const isAuthenticated = !!token;
   const defaultPic = 'https://stihi.ru/pics/2018/02/08/11668.jpg';
   const routes = useRoutes(isAuthenticated);
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{
-      token, userId, login, logout, isAuthenticated, defaultPic,
+      token, refresh, userId, login, logout, isAuthenticated, defaultPic,
     }}>
       <Router>
         {isAuthenticated && <Navbar />}

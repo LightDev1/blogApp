@@ -8,24 +8,39 @@ import Comment from './CommentsList';
 
 
 export default function Post() {
-    const { token, userId } = useContext(AuthContext);
-    const { request, loading } = useHttp();
+    const { token, userId, refresh, login } = useContext(AuthContext);
+    const { request } = useHttp();
     const postId = useParams().id;
     const history = useHistory();
     const message = useMessage();
     const [post, setPost] = useState(null);
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const checkTokens = useCallback(async () => {
+        try {
+            const data = await request('/api/auth/refresh-tokens', 'POST', { refreshToken: refresh });
+            login(data.accessToken, data.refreshToken, data.userId);
+        } catch (e) {
+            console.log(`В checkTokens ${e.message}`);
+        }
+        // eslint-disable-next-line
+    }, []);
 
     const getPost = useCallback(async () => {
+        setLoading(true);
+        checkTokens();
         try {
             const fetchedPost = await request(`/api/posts/${postId}`, 'GET', null, {
                 'Authorization': `Bearer ${token}`,
             });
             setPost(fetchedPost);
+            setLoading(false);
         } catch (e) {
+            setLoading(false);
             console.log(e.message);
         }
-    }, [token, postId, request]);
+    }, [token, postId, request, checkTokens]);
 
     useEffect(() => {
         getPost();
