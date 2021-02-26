@@ -9,13 +9,15 @@ export default function Navbar() {
     const { request } = useHttp();
     const [menu, setMenu] = useState(false);
     const [picture, setPicture] = useState('');
+    const [username, setUsername] = useState('');
 
     const getPicture = useCallback(async () => {
         try {
-            const fetchedPicture = await request('/api/auth/userpicture', 'GET', null, {
+            const data = await request('/api/auth/user-short-data', 'GET', null, {
                 'Authorization': `Bearer ${token}`,
             });
-            setPicture(fetchedPicture);
+            setPicture(data.profilePicture);
+            setUsername(data.username);
         } catch (e) {
             console.log(e);
         }
@@ -33,12 +35,17 @@ export default function Navbar() {
         <nav className="navbar">
             <div className="navbar-content">
                 <div className="logo-container"><NavLink to="/feed" className="logo">Blog App</NavLink></div>
-                <ul className="links__container">
-                    <li onClick={() => { setMenu(!menu) }}><img src={picture ? picture : defaultPic} alt="profile" /></li>
-                    <li><NavLink to="/feed" className="link">Лента</NavLink></li>
-                    <li><NavLink to="/create" className="link">Написать пост</NavLink></li>
-                    <li></li>
-                </ul>
+                <div className="navigation-container">
+                    <ul className="links__container">
+                        <li><NavLink to="/create" className="link">Написать пост</NavLink></li>
+                        <li><NavLink to="/feed" className="link">Лента</NavLink></li>
+                    </ul>
+                    <div className="profile-link" onClick={() => { setMenu(!menu) }}>
+                        <span className="username">{username}</span>
+                        <img src={picture ? picture : defaultPic} alt="profile" />
+                        <div class="top_profile_arrow"></div>
+                    </div>
+                </div>
                 {menu && <ContextMenu changeMenu={changeMenu} />}
             </div>
         </nav>

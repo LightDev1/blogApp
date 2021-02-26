@@ -25,7 +25,7 @@ export default function AuthBlock() {
     const loginHandler = async () => {
         try {
             const data = await request('/api/auth/login', 'POST', { ...form });
-            auth.login(data.tokens.accessToken, data.tokens.refreshToken, data.userId);
+            auth.login(data.tokens.accessToken, data.tokens.refreshToken, data.userId, data.username);
         } catch (e) { }
     };
 

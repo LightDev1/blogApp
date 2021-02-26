@@ -10,7 +10,7 @@
             },
             "refresh": {
                 "type": "refresh",
-                "expiresIn": "1h"
+                "expiresIn": "7d"
             }
         }
     }

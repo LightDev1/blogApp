@@ -45,7 +45,7 @@ router.post(
 
             const tokens = await updateTokens(user.id);
 
-            res.status(201).json({ tokens, userId: user.id, profilePicture: user.profilePicture, message: 'Пользователь создан' });
+            res.status(201).json({ tokens, userId: user.id, username, profilePicture: user.profilePicture, message: 'Пользователь создан' });
 
 
         } catch (e) {
@@ -75,6 +75,8 @@ router.post(
 
             const user = await User.findOne({ email });
 
+            console.log(user.username);
+
             if (!user) {
                 return res.status(400).json({ message: 'Пользователь не найден' });
             }
@@ -87,7 +89,7 @@ router.post(
 
             const tokens = await updateTokens(user.id);
 
-            res.json({ tokens, userId: user.id, profilePicture: user.profilePicture });
+            res.json({ tokens, userId: user.id, username: user.username, profilePicture: user.profilePicture });
 
         } catch (e) {
             res.status(500).json({ message: `Что-то пошло не так, попробуйте снова ${e.message}` });
@@ -137,11 +139,11 @@ router.post('/upload', auth, async (req, res) => {
     }
 });
 
-router.get('/userpicture', auth, async (req, res) => {
+router.get('/user-short-data', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId);
 
-        res.json(user.profilePicture);
+        res.json({ profilePicture: user.profilePicture, username: user.username });
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
     }
