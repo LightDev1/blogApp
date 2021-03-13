@@ -75,8 +75,6 @@ router.post(
 
             const user = await User.findOne({ email });
 
-            console.log(user.username);
-
             if (!user) {
                 return res.status(400).json({ message: 'Пользователь не найден' });
             }
@@ -152,6 +150,11 @@ router.get('/user-short-data', auth, async (req, res) => {
 router.get('/:id', auth, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
+
+        if (!user) {
+            res.status(404).json({ message: 'Пользователь был удален' });
+        }
+
         res.json(user);
     } catch (e) {
         res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });

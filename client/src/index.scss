@@ -97,7 +97,6 @@ body {
 
     .register__container {
       display: flex;
-      height: 600px;
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
@@ -420,7 +419,7 @@ body {
   
           .inputfile:focus + label,
           .inputfile + label:hover {
-            background-color: #1a69c4;
+            background-color: #DE676B;
           }
   
         }
@@ -591,6 +590,7 @@ body {
         display: flex;
         align-items: center;
         height: 60px;
+        cursor: pointer;
 
         &:hover {
           background-color: #DE676B;

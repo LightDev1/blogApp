@@ -2,12 +2,14 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useHttp } from '../hooks/http.hook';
+import { useMessage } from '../hooks/message.hook';
 import Loader from './Loader';
 import PostList from './PostList';
 
 export default function Profile() {
     const auth = useContext(AuthContext);
     const { request } = useHttp();
+    const message = useMessage();
     const userId = useParams().id;
     const inputFile = useRef();
     const [user, setUser] = useState(null);
@@ -33,12 +35,12 @@ export default function Profile() {
                 'Authorization': `Bearer ${auth.token}`,
             });
             setUser(fetchedUser);
-            setLoading(false);
         } catch (e) {
             setLoading(false);
+            message(e.message);
             console.log(e.message);
         }
-    }, [auth.token, userId, request, checkTokens]);
+    }, [auth.token, userId, request, checkTokens, message]);
 
     useEffect(() => {
         getUser();
@@ -50,7 +52,9 @@ export default function Profile() {
                 'Authorization': `Bearer ${auth.token}`,
             });
             setPosts(fetchedPosts.reverse());
+            setLoading(false);
         } catch (e) {
+            setLoading(false);
             console.log(e.message);
         }
     }, [auth.token, userId, request]);

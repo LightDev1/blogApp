@@ -63,14 +63,6 @@ export default function RegisterBlock() {
                         value={form.password}
                         onChange={changeHandler}
                     />
-                    {/* <input
-                    type="password"
-                    name="password2"
-                    className="password-field"
-                    placeholder="Повторите пароль"
-                    value={password2}
-                    onChange={(event) => { setPassword2(event.target.value) }}
-                /> */}
                     <button
                         className="sign-up"
                         onClick={registerHandler}

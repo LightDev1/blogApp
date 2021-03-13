@@ -11,7 +11,7 @@ export default function Navbar() {
     const [picture, setPicture] = useState('');
     const [username, setUsername] = useState('');
 
-    const getPicture = useCallback(async () => {
+    const getShorData = useCallback(async () => {
         try {
             const data = await request('/api/auth/user-short-data', 'GET', null, {
                 'Authorization': `Bearer ${token}`,
@@ -24,11 +24,15 @@ export default function Navbar() {
     }, [token, request]);
 
     useEffect(() => {
-        getPicture();
-    }, [getPicture])
+        getShorData();
 
-    const changeMenu = (execution) => {
-        setMenu(execution);
+        return () => {
+            setMenu(false);
+        };
+    }, [getShorData])
+
+    const changeMenu = (state) => {
+        setMenu(state);
     };
 
     return (
@@ -43,7 +47,7 @@ export default function Navbar() {
                     <div className="profile-link" onClick={() => { setMenu(!menu) }}>
                         <span className="username">{username}</span>
                         <img src={picture ? picture : defaultPic} alt="profile" />
-                        <div class="top_profile_arrow"></div>
+                        <div className="top_profile_arrow"></div>
                     </div>
                 </div>
                 {menu && <ContextMenu changeMenu={changeMenu} />}
